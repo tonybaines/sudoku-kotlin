@@ -1,3 +1,9 @@
+package com.github.tonybaines.sudoku
+
+import io.kotlintest.Spec
+import junit.framework.Assert.assertTrue
+import org.junit.Test
+
 object AcceptanceSpec {
     val PARTIAL_9x9 = """
            |26 |7 1
@@ -27,4 +33,8 @@ object AcceptanceSpec {
         763|418|259
     """.trimIndent()
 
+    @Test
+    fun `solves an example 9x9 grid`() {
+        assertTrue(Sudoku.solutionsFor(PARTIAL_9x9).contains(SOLVED_9x9))
+    }
 }
