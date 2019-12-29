@@ -1,8 +1,10 @@
 package com.github.tonybaines.sudoku
 
 object Sudoku {
-    fun solutionsFor(partial: String): List<String> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    fun solutionsFor(partial: String): Sequence<String> =
+        Grid.from(partial)
+            .permutations()
+            .filter(Grid::isValid)
+            .map(Grid::toString)
 
 }

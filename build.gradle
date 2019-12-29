@@ -14,6 +14,7 @@ dependencies {
     implementation "io.vavr:vavr-kotlin:0.10.0"
 
     testImplementation "io.kotlintest:kotlintest:2.0.7"
+    testImplementation "com.natpryce:hamkrest:1.7.0.0"
 }
 
 compileKotlin {
