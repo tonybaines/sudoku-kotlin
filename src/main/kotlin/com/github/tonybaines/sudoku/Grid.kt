@@ -30,15 +30,21 @@ class Grid(private val size: Int, private val rows: Groups) {
     fun permutations(): Sequence<Grid> {
 //        val permutations = setOf('A', 'C', 'G', 'T').permutations().asSequence()
         val permutations = setOf('1', '2', '3', '4').permutations().asSequence()
-        return permutations.flatMap { a ->
-            permutations.flatMap { b ->
-                permutations.flatMap { c ->
-                    permutations.map { d ->
+        return permutations.filter(validFor(rows[0])).flatMap { a ->
+            permutations.filter(validFor(rows[1])).flatMap { b ->
+                permutations.filter(validFor(rows[2])).flatMap { c ->
+                    permutations.filter(validFor(rows[3])).map { d ->
                         Grid.from(listOf(a, b, c, d))
                     }
                 }
             }
         }
+    }
+
+    private fun validFor(template: List<Char>): (List<Char>) -> Boolean = { permutation ->
+        permutation.mapIndexed { i, c ->
+            template[i] == '?' || c == template[i]
+        }.all { it == true }
     }
 
     fun isValid(): Boolean =

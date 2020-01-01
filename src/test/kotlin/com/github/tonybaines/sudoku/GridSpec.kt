@@ -1,6 +1,6 @@
 package com.github.tonybaines.sudoku
 
-import com.github.tonybaines.sudoku.AcceptanceSpec.SOLVED_9x9
+import com.github.tonybaines.sudoku.AcceptanceSpec.Companion.SOLVED_9x9
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.hasSize
