@@ -6,6 +6,7 @@ import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Assert
 import org.junit.Test
+import kotlin.streams.toList
 
 object AcceptanceSpec {
     val PARTIAL_9x9 = """
@@ -38,7 +39,7 @@ object AcceptanceSpec {
 
     @Test
     fun `solves an example 9x9 grid`() {
-        assertTrue(Sudoku.solutionsFor(PARTIAL_9x9).contains(SOLVED_9x9))
+        assertTrue(Sudoku.solutionsFor(PARTIAL_9x9).toList().contains(SOLVED_9x9))
     }
 
     @Test
@@ -52,7 +53,7 @@ object AcceptanceSpec {
               |1
             1 |
         """.trimIndent()
-            ).first(), equalTo(
+            ).toList().first(), equalTo(
                 """
             43
             21

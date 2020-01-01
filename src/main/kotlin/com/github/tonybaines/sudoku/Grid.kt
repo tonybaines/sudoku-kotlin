@@ -1,5 +1,6 @@
 package com.github.tonybaines.sudoku
 
+import com.marcinmoskala.math.permutations
 import kotlin.math.roundToInt
 
 class Grid(private val size: Int, private val rows: List<String>) {
@@ -23,7 +24,16 @@ class Grid(private val size: Int, private val rows: List<String>) {
 
 
     fun permutations(): Sequence<Grid> {
-        TODO()
+        val permutations = (1..4).toSet().permutations().asSequence()
+        return permutations.flatMap { a ->
+            permutations.flatMap { b ->
+                permutations.flatMap { c ->
+                    permutations.map { d ->
+                        Grid.from(listOf(a, b, c, d))
+                    }
+                }
+            }
+        }
     }
 
     fun isValid(): Boolean =
@@ -62,6 +72,10 @@ class Grid(private val size: Int, private val rows: List<String>) {
             val gridSize = gridRows.first().length
 
             return Grid(size = gridSize, rows = gridRows)
+        }
+
+        fun from(values: List<List<Int>>): Grid {
+            return Grid(size = values.first().size, rows = values.map { it.joinToString("") })
         }
     }
 
