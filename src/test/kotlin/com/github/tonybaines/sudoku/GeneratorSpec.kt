@@ -5,7 +5,6 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import kotlin.streams.toList
 
 class GeneratorSpec {
     val MAX = 4
@@ -67,6 +66,7 @@ class GeneratorSpec {
         """.trimIndent()
 
         val allSolutions = Sudoku.solutionsFor(gridString).toList()
+        println(allSolutions.mapIndexed { i, it -> "\n========$i========\n$it" })
         assertThat(allSolutions.size, equalTo(288))
     }
 }

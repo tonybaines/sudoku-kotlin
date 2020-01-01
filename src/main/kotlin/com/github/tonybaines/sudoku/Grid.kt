@@ -2,29 +2,34 @@ package com.github.tonybaines.sudoku
 
 import com.marcinmoskala.math.permutations
 import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
-class Grid(private val size: Int, private val rows: List<String>) {
-    private val cellSize = Math.sqrt(size.toDouble()).roundToInt()
-    private val columns: List<String>
+typealias Group = List<Char>
+typealias Groups = List<Group>
+
+class Grid(private val size: Int, private val rows: Groups) {
+    private val cellSize = sqrt(size.toDouble()).roundToInt()
+    private val columns:Groups
             get() = (0 until  size).map {col ->
-                rows.map { it.get(col) }.joinToString("")
+                rows.map { it[col] }
             }
 
-    private val cells: List<String>
+    private val cells: Groups
         get() =
             (0 until cellSize).flatMap { cellRowNum ->
                 (0 until cellSize).map { cellColNum ->
-                    (0 until cellSize).map { rowNum ->
+                    (0 until cellSize).flatMap { rowNum ->
                         (0 until cellSize).map { colNum ->
                             rows[rowNum + (cellRowNum * cellSize)][colNum + (cellColNum * cellSize)]
-                        }.joinToString("")
-                    }.joinToString("")
+                        }
+                    }
                 }
             }
 
 
     fun permutations(): Sequence<Grid> {
-        val permutations = (1..4).toSet().permutations().asSequence()
+//        val permutations = setOf('A', 'C', 'G', 'T').permutations().asSequence()
+        val permutations = setOf('1', '2', '3', '4').permutations().asSequence()
         return permutations.flatMap { a ->
             permutations.flatMap { b ->
                 permutations.flatMap { c ->
@@ -40,10 +45,10 @@ class Grid(private val size: Int, private val rows: List<String>) {
         rows.areValid && columns.areValid && cells.areValid
 
 
-    private val Iterable<String>.areValid: Boolean
-        get() = this.all { it.isValid}
+    private val Iterable<Group>.areValid: Boolean
+        get() = this.all { it.isValid }
 
-    private val String.isValid: Boolean
+    private val Group.isValid: Boolean
         get() = toSortedSet().size == size
 
     private val rowWidth = size + (size / cellSize) - 1
@@ -64,18 +69,21 @@ class Grid(private val size: Int, private val rows: List<String>) {
     companion object {
         fun from(partial: String): Grid {
             val gridRows = partial.split('\n')
+                .asSequence()
                 .filter(String::isNotBlank)
                 .filter { !it.matches("^(-)+$".toRegex()) } // remove horizontal separators
                 .map { it.filter { it != '|' } } // remove vertical separators
                 .map { it.replace("""[^0-9]""".toRegex(), "?") } // homogenise unknown cells
+                .map { it.toCharArray().asList() } // convert to chars
+                .toList()
 
-            val gridSize = gridRows.first().length
+            val gridSize = gridRows.first().size
 
             return Grid(size = gridSize, rows = gridRows)
         }
 
-        fun from(values: List<List<Int>>): Grid {
-            return Grid(size = values.first().size, rows = values.map { it.joinToString("") })
+        fun from(values: Groups): Grid {
+            return Grid(size = values.first().size, rows = values)
         }
     }
 
