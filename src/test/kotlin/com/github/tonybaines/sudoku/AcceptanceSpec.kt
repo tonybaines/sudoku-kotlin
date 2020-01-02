@@ -1,10 +1,9 @@
 package com.github.tonybaines.sudoku
 
 import com.natpryce.hamkrest.assertion.assertThat
-import junit.framework.Assert.assertTrue
 import org.hamcrest.CoreMatchers.equalTo
-import org.junit.Assert
 import org.junit.Assert.assertThat
+import org.junit.Ignore
 import org.junit.Test
 
 class AcceptanceSpec {
@@ -36,11 +35,20 @@ class AcceptanceSpec {
             248|957|136
             763|418|259
         """.trimIndent()
+
+        val ONE_TO_NINE = setOf('1', '2', '3', '4', '5', '6', '7', '8', '9')
+        val ONE_TO_FOUR = setOf('1', '2', '3', '4')
     }
 
     @Test
+    @Ignore("Would take ~ 1.6x10^9 years to complete the 5x10^18 permutations")
     fun `solves an example 9x9 grid`() {
-        assertTrue(Sudoku.solutionsFor(PARTIAL_9x9).toList().contains(SOLVED_9x9))
+        assertThat(Sudoku.solutionsFor(PARTIAL_9x9, ONE_TO_NINE).first(), equalTo(SOLVED_9x9))
+    }
+
+    @Test
+    fun `solves an example 9x9 grid with just one missing value`() {
+        assertThat(Sudoku.solutionsFor(SOLVED_9x9.replaceFirst('3', '?'), ONE_TO_NINE).toList().first().toString(), equalTo(SOLVED_9x9))
     }
 
     @Test
@@ -52,7 +60,8 @@ class AcceptanceSpec {
                     -----
                     **|1*
                     1*|**
-                """.trimIndent()
+                """.trimIndent(),
+            ONE_TO_FOUR
         ).toList()
         assertThat(
             solutions.first(), equalTo(
@@ -78,7 +87,7 @@ class AcceptanceSpec {
             **|**
         """.trimIndent()
 
-        val allSolutions = Sudoku.solutionsFor(gridString).toList()
+        val allSolutions = Sudoku.solutionsFor(gridString, ONE_TO_FOUR).toList()
         println(allSolutions.mapIndexed { i, it -> "\n========$i========\n$it" })
         assertThat(allSolutions.size, com.natpryce.hamkrest.equalTo(4))
     }
@@ -93,7 +102,7 @@ class AcceptanceSpec {
             ??|??
         """.trimIndent()
 
-        val allSolutions = Sudoku.solutionsFor(gridString).toList()
+        val allSolutions = Sudoku.solutionsFor(gridString, ONE_TO_FOUR).toList()
         assertThat(allSolutions.size, com.natpryce.hamkrest.equalTo(288))
     }
 }

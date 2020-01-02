@@ -1,5 +1,7 @@
 package com.github.tonybaines.sudoku
 
+import com.github.tonybaines.sudoku.AcceptanceSpec.Companion.ONE_TO_FOUR
+import com.github.tonybaines.sudoku.AcceptanceSpec.Companion.ONE_TO_NINE
 import com.github.tonybaines.sudoku.AcceptanceSpec.Companion.SOLVED_9x9
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
@@ -16,7 +18,7 @@ class GridSpec {
         """.trimIndent()
         assertThat(
             Grid.from(
-                gridString
+                gridString, setOf('1', '2')
             ).toString(), equalTo(gridString)
         )
     }
@@ -32,14 +34,16 @@ class GridSpec {
         """.trimIndent()
         assertThat(
             Grid.from(
-                gridString
+                gridString,
+                ONE_TO_FOUR
+
             ).toString(), equalTo(gridString)
         )
     }
 
     @Test
     fun `can read a 9x9 grid and turn it back into a string`() {
-        assertThat(Grid.from(SOLVED_9x9).toString(), equalTo(SOLVED_9x9))
+        assertThat(Grid.from(SOLVED_9x9, ONE_TO_NINE).toString(), equalTo(SOLVED_9x9))
     }
 
     @Test
@@ -49,7 +53,8 @@ class GridSpec {
             ?|?
             ---
             ?|?
-        """.trimIndent()
+        """.trimIndent(),
+            setOf('1', '2')
         )
 
         var permutations = grid.permutations()
