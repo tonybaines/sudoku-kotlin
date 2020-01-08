@@ -1,8 +1,8 @@
 package com.github.tonybaines.sudoku
 
-import com.github.tonybaines.sudoku.AcceptanceSpec.Companion.ONE_TO_NINE
-import com.github.tonybaines.sudoku.AcceptanceSpec.Companion.PARTIAL_9x9
-import com.github.tonybaines.sudoku.AcceptanceSpec.Companion.SOLVED_9x9
+import com.github.tonybaines.sudoku.Fixture.ONE_TO_NINE
+import com.github.tonybaines.sudoku.Fixture.PARTIAL_9x9
+import com.github.tonybaines.sudoku.Fixture.SOLVED_9x9
 import junit.framework.TestCase.assertTrue
 import junit.framework.TestCase.assertFalse
 import org.junit.Test

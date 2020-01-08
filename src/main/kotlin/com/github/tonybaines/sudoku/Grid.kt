@@ -8,7 +8,7 @@ typealias Groups = List<Group>
 
 class Grid(
     private val size: Int,
-    private val rows: Groups,
+    val rows: Groups,
     val required: Set<Char>
 ) {
     private val cellSize = sqrt(size.toDouble()).roundToInt()

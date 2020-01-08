@@ -1,8 +1,8 @@
 package com.github.tonybaines.sudoku
 
-import com.github.tonybaines.sudoku.AcceptanceSpec.Companion.ONE_TO_FOUR
-import com.github.tonybaines.sudoku.AcceptanceSpec.Companion.ONE_TO_NINE
-import com.github.tonybaines.sudoku.AcceptanceSpec.Companion.SOLVED_9x9
+import com.github.tonybaines.sudoku.Fixture.ONE_TO_FOUR
+import com.github.tonybaines.sudoku.Fixture.ONE_TO_NINE
+import com.github.tonybaines.sudoku.Fixture.SOLVED_9x9
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.hasSize
